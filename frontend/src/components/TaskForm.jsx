@@ -2,6 +2,15 @@ import { useEffect, useState } from 'react';
 
 const STATUS_OPTIONS = ['Pending', 'In Progress', 'Completed'];
 
+const FieldIcon = ({ children }) => (
+  <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">
+    {children}
+  </span>
+);
+
+const baseInputClasses =
+  'w-full rounded-xl border border-slate-700 bg-slate-900/70 px-9 py-2.5 text-sm text-slate-50 shadow-inner shadow-slate-950/40 outline-none transition focus:border-emerald-400 focus:bg-slate-900 focus:ring-2 focus:ring-emerald-500/30 placeholder:text-slate-500';
+
 export default function TaskForm({ onSubmit, initialValues, onCancel }) {
   const [form, setForm] = useState({
     title: '',
@@ -20,6 +29,14 @@ export default function TaskForm({ onSubmit, initialValues, onCancel }) {
         status: initialValues.status || 'Pending',
         remarks: initialValues.remarks || ''
       });
+    } else {
+      setForm({
+        title: '',
+        description: '',
+        dueDate: '',
+        status: 'Pending',
+        remarks: ''
+      });
     }
   }, [initialValues]);
 
@@ -34,61 +51,121 @@ export default function TaskForm({ onSubmit, initialValues, onCancel }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
-    >
-      <h2 className="text-lg font-semibold text-slate-800">
-        {initialValues ? 'Edit Task' : 'Create Task'}
-      </h2>
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-slate-700">
-            Title
-            <input
-              type="text"
-              name="title"
-              value={form.title}
-              onChange={handleChange}
-              required
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
-              placeholder="e.g. Prepare project report"
-            />
-          </label>
+    <form onSubmit={handleSubmit} className="space-y-4 text-slate-50">
+      {/* Title */}
+      <div className="space-y-1">
+        <label className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">
+          Title
+        </label>
+        <div className="relative">
+          <FieldIcon>
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 5h16M4 12h10M4 19h6" />
+            </svg>
+          </FieldIcon>
+          <input
+            type="text"
+            name="title"
+            value={form.title}
+            onChange={handleChange}
+            required
+            className={baseInputClasses}
+            placeholder="e.g. Plan sprint backlog"
+          />
         </div>
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-slate-700">
-            Description
-            <textarea
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-              rows={3}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
-              placeholder="Add more details about the task"
-            />
-          </label>
+      </div>
+
+      {/* Description */}
+      <div className="space-y-1">
+        <label className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">
+          Description
+        </label>
+        <div className="relative">
+          <FieldIcon>
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 6h16M4 10h10M4 14h7M4 18h9" />
+            </svg>
+          </FieldIcon>
+          <textarea
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            rows={3}
+            className={baseInputClasses}
+            placeholder="Provide more context for this task"
+          />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700">
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        {/* Due date */}
+        <div className="space-y-1">
+          <label className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">
             Due Date
+          </label>
+          <div className="relative">
+            <FieldIcon>
+              <svg
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4M8 2v4M3 10h18" />
+              </svg>
+            </FieldIcon>
             <input
               type="date"
               name="dueDate"
               value={form.dueDate}
               onChange={handleChange}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+              className={baseInputClasses}
             />
-          </label>
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700">
+
+        {/* Status */}
+        <div className="space-y-1">
+          <label className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">
             Status
+          </label>
+          <div className="relative">
+            <FieldIcon>
+              <span
+                className={`h-3 w-3 rounded-full ${
+                  form.status === 'Completed'
+                    ? 'bg-emerald-400'
+                    : form.status === 'In Progress'
+                    ? 'bg-sky-400'
+                    : 'bg-amber-400'
+                }`}
+              />
+            </FieldIcon>
             <select
               name="status"
               value={form.status}
               onChange={handleChange}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
+              className={`${baseInputClasses} appearance-none pr-8`}
             >
               {STATUS_OPTIONS.map((status) => (
                 <option key={status} value={status}>
@@ -96,40 +173,60 @@ export default function TaskForm({ onSubmit, initialValues, onCancel }) {
                 </option>
               ))}
             </select>
-          </label>
-        </div>
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-slate-700">
-            Remarks
-            <input
-              type="text"
-              name="remarks"
-              value={form.remarks}
-              onChange={handleChange}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
-              placeholder="Any additional notes"
-            />
-          </label>
+            <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-xs text-slate-400">
+              ▾
+            </span>
+          </div>
         </div>
       </div>
-      <div className="flex items-center justify-end gap-3 pt-2">
-        {onCancel && (
+
+      {/* Remarks */}
+      <div className="space-y-1">
+        <label className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">
+          Remarks
+        </label>
+        <div className="relative">
+          <FieldIcon>
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 19h14M5 5h14v10H5z" />
+            </svg>
+          </FieldIcon>
+          <input
+            type="text"
+            name="remarks"
+            value={form.remarks}
+            onChange={handleChange}
+            className={baseInputClasses}
+            placeholder="Any extra notes or links"
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-end gap-3 pt-1">
+        {onCancel && initialValues && (
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            className="rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-xs font-medium text-slate-100 shadow-sm shadow-slate-950/40 transition hover:border-slate-500 hover:bg-slate-800/90"
           >
             Cancel
           </button>
         )}
         <button
           type="submit"
-          className="rounded-lg bg-primary-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-300"
+          className="inline-flex items-center gap-1 rounded-full bg-emerald-500 px-5 py-2 text-xs font-semibold text-slate-950 shadow-lg shadow-emerald-900/50 transition hover:-translate-y-0.5 hover:bg-emerald-400 hover:shadow-xl hover:shadow-emerald-900/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/70"
         >
-          {initialValues ? 'Update Task' : 'Create Task'}
+          <span>{initialValues ? 'Update Task' : 'Create Task'}</span>
         </button>
       </div>
     </form>
   );
 }
-
