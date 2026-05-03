@@ -9,6 +9,51 @@ body,
 }
 
 body {
-  @apply bg-slate-950 text-slate-50;
+  @apply bg-gray-50 text-gray-900 antialiased;
+  font-feature-settings: 'cv11', 'ss01';
 }
 
+.dark body {
+  background-color: #020617; /* slate-950 */
+  color: #f8fafc; /* slate-50 */
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #334155;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #475569;
+}
+
+/* Date picker icon */
+input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+.dark input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(0.7) brightness(0.9);
+}
+
+/* Native select option background */
+option {
+  background-color: #ffffff;
+  color: #111827;
+}
+.dark option {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}

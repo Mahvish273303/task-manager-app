@@ -26,6 +26,16 @@ const taskSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
+    project: {
+      type: String,
+      trim: true,
+      default: ''
+    },
+    assignedTo: {
+      type: String,
+      trim: true,
+      default: ''
+    },
     createdBy: {
       type: String,
       required: true,
@@ -76,6 +86,8 @@ class TaskModel {
       dueDate: task.dueDate || null,
       status: task.status || 'Pending',
       remarks: task.remarks || '',
+      project: task.project || '',
+      assignedTo: task.assignedTo || '',
       createdBy: task.createdBy,
       updatedBy: task.createdBy
     };

@@ -12,6 +12,8 @@ exports.createTask = async (req, res, next) => {
       dueDate,
       status = 'Pending',
       remarks,
+      project,
+      assignedTo,
       createdBy = 'system'
     } = req.body;
 
@@ -29,6 +31,8 @@ exports.createTask = async (req, res, next) => {
       dueDate: dueDate || null,
       status,
       remarks: remarks || '',
+      project: project || '',
+      assignedTo: assignedTo || '',
       createdBy
     });
 

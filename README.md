@@ -20,7 +20,11 @@ A production-ready **Task Manager** application built with **React (Vite)**, **N
 - **Filter Tasks** by status
 - **Timestamps & Audit Fields**: `createdOn`, `updatedOn`, `createdBy`, `updatedBy`
 - **REST API** organized with controllers, models, and routes
+## Application Preview
 
+![Task Manager Dashboard](screenshots/dashboard.png)
+
+This screenshot shows the main dashboard where users can create, update, delete, and search tasks.
 ---
 
 ## Backend Structure

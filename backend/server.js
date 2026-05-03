@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const { connectDB } = require('./config/db');
 const taskRoutes = require('./routes/taskRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -15,13 +16,14 @@ app.use(
   cors({
     origin: CORS_ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type']
+    allowedHeaders: ['Content-Type', 'Authorization']
   })
 );
 app.use(express.json());
 app.use(morgan('dev'));
 
 app.use('/api', taskRoutes);
+app.use('/api/auth', authRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
