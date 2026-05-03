@@ -9,12 +9,11 @@ const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
-const PORT = process.env.PORT ? Number(process.env.PORT) : 5000;
-const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:5173';
+const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: CORS_ORIGIN,
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   })
@@ -43,10 +42,19 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Internal server error' });
 });
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      // eslint-disable-next-line no-console
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (err) {
     // eslint-disable-next-line no-console
-    console.log(`Server running on port ${PORT}`);
-  });
-});
+    console.error('Failed to start server:', err.message);
+    process.exit(1);
+  }
+};
+
+startServer();
 

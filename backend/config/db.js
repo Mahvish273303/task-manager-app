@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const MONGO_URI =
-  process.env.MONGO_URI || 'mongodb://localhost:27017/task_manager_db';
+const MONGO_URI = process.env.MONGO_URI;
 
 const connectDB = async () => {
   try {
+    if (!MONGO_URI) {
+      throw new Error('Missing MONGO_URI environment variable');
+    }
+
     await mongoose.connect(MONGO_URI, {
       serverSelectionTimeoutMS: 10000
     });
@@ -15,7 +18,7 @@ const connectDB = async () => {
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error('MongoDB connection error:', err.message);
-    process.exit(1);
+    throw err;
   }
 };
 

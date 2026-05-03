@@ -127,12 +127,12 @@ See `.env.example` at the project root.
 Backend:
 
 - `PORT` - Port for Express server (default `5000`)
-- `CORS_ORIGIN` - Allowed frontend origin (default `http://localhost:5173`)
 - `MONGO_URI` - MongoDB connection string (e.g. `mongodb://localhost:27017/task_manager_db`)
+- `JWT_SECRET` - Secret used to sign authentication tokens
 
 Frontend:
 
-- `VITE_API_BASE_URL` - API base URL (default `http://localhost:5000/api`)
+- `VITE_API_URL` - API base URL (e.g. `http://localhost:5000/api`)
 
 Create a `.env` file in the project root (or inside `backend/` and `frontend/` as needed) based on `.env.example`.
 
@@ -218,7 +218,7 @@ npm run dev
 ```
 
 - The app will run on `http://localhost:5173`.
-- Make sure `VITE_API_BASE_URL` (or backend `CORS_ORIGIN`) are set correctly if you change ports or hosts.
+- Make sure `VITE_API_URL` points to your backend API URL.
 
 ---
 
